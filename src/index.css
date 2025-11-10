@@ -1,0 +1,48 @@
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --text-color: rgba(245,245,245,0.9);
+}
+
+.loading-overlay{ @apply fixed inset-0 flex items-center justify-center z-50 bg-white text-black text-xl uppercase tracking-tight; }
+.loading-counter{ margin-left: .5rem }
+.debug-info{ @apply fixed bottom-2 right-2 bg-white/70 text-black p-2 text-xs z-40 font-mono hidden }
+
+.background-container{ position:absolute; inset:0; z-index:1; overflow:hidden; background-color:#000 }
+.background-image{ position:absolute; top:-10%; left:0; width:100%; height:120%; object-fit:cover; opacity:0; filter:brightness(.8); }
+.background-image.active{ opacity:1; z-index:2 }
+
+.featured-content{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden }
+.featured-content.active{ opacity:1; visibility:visible }
+
+.fixed-section{ height:1100vh; position:relative; background-color:#fff }
+.fixed-container{ position:sticky; top:0; left:0; width:100%; height:100vh; overflow:hidden; z-index:2 }
+.grid-container{ display:grid; grid-template-columns:repeat(12,1fr); gap:1rem; padding:0 2rem; height:100%; position:relative; z-index:3 }
+.header{ grid-column:1/13; padding-top:5vh; font-size:10vw; line-height:.8; text-align:center; color:var(--text-color); text-transform:uppercase; font-weight:600 }
+.footer{ grid-column:1/13; padding-bottom:5vh; font-size:10vw; line-height:.8; text-align:center; color:var(--text-color); text-transform:uppercase; font-weight:600 }
+.content{  width: 100%; grid-column:1/13; display:flex; justify-content:space-between; align-items:center; position:absolute; top:50%; left:0; transform:translateY(-50%); padding:0 2rem }
+.left-column{ position: absolute; right: 0; left: auto; width:18%; display:flex; flex-direction:column; gap:.25rem; align-items:flex-end; text-align:right; padding-right:1.5rem }
+.right-column{ position:absolute; left:0; right:auto; width:18%; display:flex; flex-direction:column; gap:.25rem; align-items:flex-start; text-align:left; padding-left:1.5rem }
+.featured{ width:64%; display:flex; justify-content:center; align-items:center; text-align:center; font-size:1.5vw; position:relative; height:10vh; overflow:hidden }
+
+.artist, .category{ opacity:0; transform:translateY(20px); transition:all .5s cubic-bezier(.16,1,.3,1); color:var(--text-color); cursor:pointer; text-transform:uppercase; font-size:.9vw; letter-spacing:1px }
+.artist.loaded, .category.loaded{ opacity:.3; transform:translateY(0) }
+.artist.active{ opacity:1; transform:translateX(-10px); padding-right:15px }
+.category.active{ opacity:1; transform:translateX(10px); padding-left:15px }
+
+.artist.active::after{ content: '•'; display:inline-block; margin-left:.6rem; color:var(--text-color); font-size:1.2em }
+.category.active::before{ content: '•'; display:inline-block; margin-right:.6rem; color:var(--text-color); font-size:1.2em }
+
+.progress-indicator{ width:160px; height:1px; margin:2vh auto 0; position:relative; background-color:rgba(245,245,245,0.3) }
+.progress-fill{ position:absolute; top:0; left:0; height:100%; width:0%; background-color:var(--text-color); transition:width .3s cubic-bezier(.65,0,.35,1) }
+
+@media (max-width:768px){
+  .content{ flex-direction:column; gap:5vh }
+  .left-column, .right-column, .featured{ width:100%; text-align:center }
+  .featured{ font-size:3vw; order:-1; margin-bottom:2vh }
+  .header, .footer{ font-size:15vw }
+  .progress-indicator{ width:120px }
+}
